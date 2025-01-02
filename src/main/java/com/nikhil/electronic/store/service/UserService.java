@@ -3,8 +3,8 @@ package com.nikhil.electronic.store.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.nikhil.electronic.store.customresponses.PegiableResponse;
 import com.nikhil.electronic.store.dto.UserDto;
-import com.nikhil.electronic.store.exception.PegiableResponse;
 
 public interface UserService {
 	
@@ -27,6 +27,6 @@ public interface UserService {
 	public UserDto getUserByEmail(String email);
 	
 	// get all user with pagination
-	public PegiableResponse getUserWithPegination(int pageNumber, int pageSize, String sortBy, String sortDir);
+	public PegiableResponse<UserDto> getUserWithPegination(int pageNumber, int pageSize, String sortBy, String sortDir);
 	
 }

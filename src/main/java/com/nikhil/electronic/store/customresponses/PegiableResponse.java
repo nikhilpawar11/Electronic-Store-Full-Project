@@ -1,8 +1,6 @@
-package com.nikhil.electronic.store.exception;
+package com.nikhil.electronic.store.customresponses;
 
 import java.util.List;
-
-import com.nikhil.electronic.store.dto.UserDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,9 +15,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class PegiableResponse {
+public class PegiableResponse<T> {
 	
-	private List<UserDto> content;
+	private List<T> content;
 	
 	private long totalElements;
 	

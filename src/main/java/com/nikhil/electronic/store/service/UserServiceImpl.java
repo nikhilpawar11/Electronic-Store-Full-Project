@@ -19,11 +19,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nikhil.electronic.store.customresponses.PegiableResponse;
 import com.nikhil.electronic.store.dto.UserDto;
 import com.nikhil.electronic.store.entity.Role;
 import com.nikhil.electronic.store.entity.User;
-import com.nikhil.electronic.store.exception.PegiableResponse;
 import com.nikhil.electronic.store.exception.ResourceNotFoundException;
+import com.nikhil.electronic.store.helper.Helper;
 import com.nikhil.electronic.store.repository.UserRepository;
 
 @Service
@@ -140,7 +141,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PegiableResponse getUserWithPegination(int pageNumber, int pageSize, String sortBy, String sortDir) {
+	public PegiableResponse<UserDto> getUserWithPegination(int pageNumber, int pageSize, String sortBy, String sortDir) {
 		
 		Sort sort = (sortBy.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 		
@@ -148,22 +149,9 @@ public class UserServiceImpl implements UserService {
 		
 		Page<User> page = userRepo.findAll(pageable);
 		
-		List<User> user = page.getContent();
+		PegiableResponse<UserDto> peginationResponse = Helper.getPeginationResponse(page, UserDto.class);
 		
-		List<UserDto> userDto = user.stream().map(ex -> mapper.map(ex, UserDto.class)).collect(Collectors.toList());
-		
-		long totalElements = page.getTotalElements();
-		int totalPages = page.getTotalPages();
-		boolean first = page.isFirst();
-		boolean last = page.isLast();
-		
-		PegiableResponse pegiableResponse = PegiableResponse.builder().content(userDto)
-				.totalElements(totalElements).totalPages(totalPages)
-				.pageNumber(pageNumber).pageSize(pageSize)
-				.isFirst(first).isLast(last)
-				.build();
-		
-		return pegiableResponse;
+		return peginationResponse;
 	}
 
 }

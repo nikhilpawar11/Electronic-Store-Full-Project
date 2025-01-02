@@ -1,4 +1,4 @@
-package com.nikhil.electronic.store.exception;
+package com.nikhil.electronic.store.customresponses;
 
 import org.springframework.http.HttpStatus;
 

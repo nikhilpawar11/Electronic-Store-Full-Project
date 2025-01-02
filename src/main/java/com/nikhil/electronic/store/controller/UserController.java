@@ -21,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nikhil.electronic.store.customresponses.ImageResponse;
+import com.nikhil.electronic.store.customresponses.PegiableResponse;
 import com.nikhil.electronic.store.dto.UserDto;
 import com.nikhil.electronic.store.exception.ApiResponseMessge;
-import com.nikhil.electronic.store.exception.ImageResponse;
-import com.nikhil.electronic.store.exception.PegiableResponse;
 import com.nikhil.electronic.store.service.FileService;
 import com.nikhil.electronic.store.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -44,7 +45,7 @@ public class UserController {
 	
 	// create user
 	@PostMapping("/createUser")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		
 		UserDto createUser = userService.createUser(userDto);
 		
@@ -54,7 +55,7 @@ public class UserController {
 	
 	// update user
 	@PutMapping("/updateUser/{userId}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable String userId){
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable String userId){
 		
 		UserDto updateUser = userService.updateUser(userDto, userId);
 		
@@ -106,14 +107,14 @@ public class UserController {
 	
 	// get all users with pagination
 	@GetMapping("/getUserWithPegination")
-	public ResponseEntity<PegiableResponse> getUserWithPegination(
+	public ResponseEntity<PegiableResponse<UserDto>> getUserWithPegination(
 			@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
 			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
 			@RequestParam(name = "sortBy", required = false, defaultValue = "name") String sortBy,
 			@RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir
 			){
 		
-		PegiableResponse userWithPegination = userService.getUserWithPegination(pageNumber, pageSize, sortBy, sortDir);
+		PegiableResponse<UserDto> userWithPegination = userService.getUserWithPegination(pageNumber, pageSize, sortBy, sortDir);
 		
 		return new ResponseEntity<>(userWithPegination, HttpStatus.OK);
 		
@@ -129,7 +130,7 @@ public class UserController {
 			
 			user.setImageName(imageName);
 			
-			UserDto updateUSer = userService.updateUser(user, userId);
+			UserDto updateUser = userService.updateUser(user, userId);
 			
 			ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).message("Image upload successfull !!").success(true).status(HttpStatus.CREATED).build();
 			
