@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nikhil.electronic.store.customresponses.PegiableResponse;
 import com.nikhil.electronic.store.dto.CategoryDto;
+import com.nikhil.electronic.store.dto.ProductDto;
 import com.nikhil.electronic.store.exception.ApiResponseMessge;
 import com.nikhil.electronic.store.service.CategoryService;
+import com.nikhil.electronic.store.service.ProductService;
 
 import jakarta.validation.Valid;
 
@@ -29,6 +31,9 @@ public class CategoryController {
 	
 	@Autowired
 	public CategoryService categoryService;
+	
+	@Autowired
+	private ProductService productService;
 	
 
 	@PostMapping("/createCategory")
@@ -90,6 +95,22 @@ public class CategoryController {
 		
 		
 		return new ResponseEntity<>(categoryWithPegination, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/getProductsFromCategory/{categoryId}")
+	public ResponseEntity<PegiableResponse<ProductDto>> getallProductsFromCategory(
+			@PathVariable String categoryId,
+			@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(name = "sortBy", required = false, defaultValue = "title") String sortBy,
+			@RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir
+			){
+		
+		PegiableResponse<ProductDto> pegiableResponse = productService.getAllProductFromCategory(categoryId,pageNumber, pageSize, sortBy, sortDir);
+		
+		return new ResponseEntity<>(pegiableResponse, HttpStatus.OK);
+		
 		
 	}
 	
