@@ -79,7 +79,7 @@ public class CartServiceImpl implements CartService {
 		
 		List<CartItem> items = cart.getCartItem();
 		
-		List<CartItem> updatedItems = items.stream().map(item -> {
+		items = items.stream().map(item -> {
 			
 			if(item.getProduct().getId().equals(productId)) {
 				
@@ -92,7 +92,7 @@ public class CartServiceImpl implements CartService {
 			return item;
 		}).collect(Collectors.toList());
 		
-		cart.setCartItem(updatedItems);
+		//cart.setCartItem(updatedItems);
 		
 		// create items
 		if(!updated.get()) {
