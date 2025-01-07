@@ -121,7 +121,7 @@ public class UserController {
 	}
 	
 	// make a API to upload user image
-		@PostMapping("/image/{userId}")
+		@PostMapping("/uploadImage/{userId}")
 		public ResponseEntity<ImageResponse> uploadUserImage(@RequestParam("userImage") MultipartFile image, @PathVariable String userId) throws IOException{
 			
 			String imageName = fileService.uploadFile(image, imageUploadPath);
@@ -140,7 +140,7 @@ public class UserController {
 		
 		
 		// make a API to serve image
-		@GetMapping("/image/{userId}")
+		@GetMapping("/serveImage/{userId}")
 		public void serveUserImage(@PathVariable String userId, HttpServletResponse response) throws IOException {
 			
 			UserDto userById = userService.getUserById(userId);
