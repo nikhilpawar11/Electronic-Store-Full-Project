@@ -127,5 +127,22 @@ public class ProductController {
 	}
 	
 	
+	@GetMapping("/getProductsFromCategory/{categoryId}")
+	public ResponseEntity<PegiableResponse<ProductDto>> getallProductsFromCategory(
+			@PathVariable String categoryId,
+			@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(name = "sortBy", required = false, defaultValue = "title") String sortBy,
+			@RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir
+			){
+		
+		PegiableResponse<ProductDto> pegiableResponse = productService.getAllProductFromCategory(categoryId,pageNumber, pageSize, sortBy, sortDir);
+		
+		return new ResponseEntity<>(pegiableResponse, HttpStatus.OK);
+		
+		
+	}
+	
+	
 
 }
