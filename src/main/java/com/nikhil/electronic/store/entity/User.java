@@ -1,7 +1,12 @@
 package com.nikhil.electronic.store.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,7 +30,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "Users_Table")
-public class User {
+public class User implements UserDetails {
 	
 	@Id
 	@Column(name = "User_Id")
@@ -51,5 +56,16 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Order> orders = new ArrayList<>();
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(getRole().toString());
+		return List.of(simpleGrantedAuthority);
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
 
 }

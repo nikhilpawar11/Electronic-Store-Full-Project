@@ -37,12 +37,27 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ModelMapper mapper;
+	
+	
+	@Override
+	public ProductDto createProduct(ProductDto productDto) {
+		
+		Product product = mapper.map(productDto, Product.class);
+		// set random id to product
+		product.setId(UUID.randomUUID().toString());
+		// set added date to product
+		product.setAddedDate(new Date());
+		
+		Product saveProduct = productRepo.save(product);
+		
+		return mapper.map(saveProduct, ProductDto.class);
+	}
 
 	@Override
 	public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
 		
 		// fetch the category using categoryRepo
-		Category categorybyId = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with given id "+categoryId));
+		Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with given id "+categoryId));
 		
 		Product product = mapper.map(productDto, Product.class);
 		
@@ -54,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setAddedDate(new Date());
 		
 		// set catehoryId to the product
-		product.setCategory(categorybyId);
+		product.setCategory(category);
 		
 		// save the product using productRepo
 		Product saveProduct = productRepo.save(product);
@@ -173,19 +188,21 @@ public class ProductServiceImpl implements ProductService {
 	public PegiableResponse<ProductDto> getAllProductFromCategory(String categoryId, int pageNumber, int pageSize, String sortBy, String sortDir) {
 
 		// fetch the category by using  categoryId 
-		Category categoryById = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with given id "+categoryId));
+		Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with given id "+categoryId));
 
 		Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 		
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 		
-		Page<Product> page = productRepo.findByCategoryId(categoryById, pageable);
+		Page<Product> page = productRepo.findByCategoryId(category, pageable);
 		
 		PegiableResponse<ProductDto> peginationResponse = Helper.getPeginationResponse(page, ProductDto.class);
 		
 		return peginationResponse;
 
 	}
+
+	
 	
 	
 	

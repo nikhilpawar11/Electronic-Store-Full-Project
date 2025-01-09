@@ -1,7 +1,7 @@
 package com.nikhil.electronic.store.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -46,6 +46,6 @@ public class Category {
 	// mapped By = category means we don't want two table for manage this relationship so thats why we manage this relationship using category
 	// this category column are work as a join column which is generated in product table.
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
-	private Set<Product> products = new HashSet<>();
+	private List<Product> products = new ArrayList<>();
 
 }

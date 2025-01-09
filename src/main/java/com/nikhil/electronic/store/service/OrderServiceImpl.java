@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 		// fetch the cart
 		Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found with given id "+cartId));
 		
-		List<CartItem> cartItems = cart.getCartItem();
+		List<CartItem> cartItems = cart.getItems();
 		
 		if(cartItems.size() <= 0) {
 			throw new BadApiRequest("Invalid numbers of items in cart !!");
@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setOrderAmount(orderAmount.get());
 		
 		// now clear the cart
-		cart.getCartItem().clear();
+		cart.getItems().clear();
 		
 		// then save the cart
 		cartRepo.save(cart);

@@ -27,6 +27,15 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@PostMapping("/createProduct")
+	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto){
+		
+		ProductDto savedProduct = productService.createProduct(productDto);
+		
+		return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+		
+	}
+	
 	@PostMapping("/createProduct/{categoryId}")
 	public ResponseEntity<ProductDto> createProductWithCategory(@RequestBody ProductDto productDto, @PathVariable String categoryId){
 		

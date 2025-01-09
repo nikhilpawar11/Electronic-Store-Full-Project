@@ -37,6 +37,6 @@ public class ProductDto {
 
 	private boolean stock;
 	
-	private CategoryDto categoryDto;
+	private CategoryDto category;
 
 }

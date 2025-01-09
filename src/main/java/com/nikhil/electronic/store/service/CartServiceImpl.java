@@ -77,7 +77,7 @@ public class CartServiceImpl implements CartService {
 		// if cart item is already present : then update that item
 		AtomicReference<Boolean> updated = new AtomicReference<>(false);
 		
-		List<CartItem> items = cart.getCartItem();
+		List<CartItem> items = cart.getItems();
 		
 		items = items.stream().map(item -> {
 			
@@ -102,7 +102,7 @@ public class CartServiceImpl implements CartService {
 					.cart(cart).product(product)
 					.build();
 			// add the items 
-			cart.getCartItem().add(cartItem);
+			cart.getItems().add(cartItem);
 		}
 		
 		// set the user
@@ -130,7 +130,7 @@ public class CartServiceImpl implements CartService {
 		
 		Cart cart = cartRepo.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Cart of given user is not found !!"));
 		
-		cart.getCartItem().clear();
+		cart.getItems().clear();
 		
 		cartRepo.save(cart);
 		

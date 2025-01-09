@@ -11,7 +11,7 @@ import com.nikhil.electronic.store.exception.ResourceNotFoundException;
 import com.nikhil.electronic.store.repository.UserRepository;
 
 @Service
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepo;
@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		
 		User user = userRepo.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User not found with given email "+username));
 		
-		return new CustomUserDetail(user);
+		return user;
 	}
 
 }

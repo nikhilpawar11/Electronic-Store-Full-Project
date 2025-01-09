@@ -18,12 +18,12 @@ import lombok.ToString;
 @ToString
 public class CartDto {
 
-	private int cartId;
+	private String cartId;
 
 	private Date createdAt;
 
-	private UserDto userDto;
+	private UserDto user;
 
-	private List<CartItemDto> cartItemDto = new ArrayList<>();
+	private List<CartItemDto> items = new ArrayList<>();
 
 }

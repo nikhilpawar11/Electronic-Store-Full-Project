@@ -7,6 +7,9 @@ import com.nikhil.electronic.store.dto.ProductDto;
 
 public interface ProductService {
 	
+	// create product
+	public ProductDto createProduct(ProductDto productDto);
+	
 	// create product with category
 	public ProductDto createProductWithCategory(ProductDto productDto, String categoryId); 
 	

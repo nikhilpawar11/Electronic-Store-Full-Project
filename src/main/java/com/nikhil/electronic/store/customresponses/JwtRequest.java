@@ -1,5 +1,4 @@
-package com.nikhil.electronic.store.dto;
-
+package com.nikhil.electronic.store.customresponses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,17 +11,12 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
-public class CartItemDto {
-
-	private int cartItemId;
-
-	private ProductDto product;
-
-	private int quantity;
-
-	private int totalPrice;
-
+@Builder
+public class JwtRequest {
+	
+	private String email;
+	
+	private String password;
 
 }

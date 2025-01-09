@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler
+	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponseMessge> handleGlobalException(ResourceNotFoundException ex){
 		
 		ApiResponseMessge apiResponseMessge = ApiResponseMessge.builder().message(ex.getMessage()).success(false).status(HttpStatus.NOT_FOUND).build();
@@ -17,8 +17,17 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler
+	@ExceptionHandler(BadApiRequest.class)
 	public ResponseEntity<ApiResponseMessge> handleBadApiRequest(BadApiRequest ex){
+		
+		ApiResponseMessge apiResponseMessge = ApiResponseMessge.builder().message(ex.getMessage()).success(false).status(HttpStatus.BAD_REQUEST).build();
+		
+		return new ResponseEntity<>(apiResponseMessge, HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@ExceptionHandler(BadCredentialRequest.class)
+	public ResponseEntity<ApiResponseMessge> handleBadCredentialRequest(BadCredentialRequest ex){
 		
 		ApiResponseMessge apiResponseMessge = ApiResponseMessge.builder().message(ex.getMessage()).success(false).status(HttpStatus.BAD_REQUEST).build();
 		
