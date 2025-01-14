@@ -1,5 +1,7 @@
 package com.nikhil.electronic.store.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.nikhil.electronic.store.jwtconfig.JwtAuthenticationEntryPoint;
 import com.nikhil.electronic.store.jwtconfig.JwtAuthenticationFilter;
+
 
 @Configuration
 public class SecurityConfig {
@@ -60,6 +64,22 @@ public class SecurityConfig {
 		
 		
 		httpSecurity.csrf(csrf -> csrf.disable());
+		
+		// cors configuration(He apla frontend che konte konte url, methods, credintials, headers access karu shakel te config karayca asta)
+		httpSecurity.cors(cors -> cors.configurationSource(ex -> {
+			
+			CorsConfiguration configuration = new CorsConfiguration();
+			
+			configuration.setAllowedOrigins(List.of(""));
+			configuration.setAllowedMethods(List.of("*"));
+			configuration.setAllowCredentials(true);
+			configuration.setAllowedHeaders(List.of("*"));
+			configuration.setMaxAge(3000L);
+			
+			return configuration;
+			
+		}));
+		
 		
 		httpSecurity.authorizeHttpRequests(request -> request .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/user/**").permitAll()
