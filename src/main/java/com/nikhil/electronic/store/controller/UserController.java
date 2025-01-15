@@ -27,11 +27,17 @@ import com.nikhil.electronic.store.dto.UserDto;
 import com.nikhil.electronic.store.exception.ApiResponseMessge;
 import com.nikhil.electronic.store.service.FileService;
 import com.nikhil.electronic.store.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "UserController", description = "REST APIs related to perform operations on User !!")
 public class UserController {
 	
 	@Autowired
@@ -45,6 +51,12 @@ public class UserController {
 	
 	// create user
 	@PostMapping("/createUser")
+	@Operation(summary = "Create new User !!", description = "This is User APIs")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success | OK"),
+            @ApiResponse(responseCode = "401", description = "not authorized !!"),
+            @ApiResponse(responseCode = "201", description = "new user created !!")
+    })
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		
 		UserDto createUser = userService.createUser(userDto);
@@ -55,6 +67,7 @@ public class UserController {
 	
 	// update user
 	@PutMapping("/updateUser/{userId}")
+	@Operation(summary = "Update user", description = "This is User APIs")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable String userId){
 		
 		UserDto updateUser = userService.updateUser(userDto, userId);
@@ -65,6 +78,7 @@ public class UserController {
 	
 	// delete user
 	@DeleteMapping("/deleteUser/{userId}")
+	@Operation(summary = "Delete user", description = "This is User APIs")
 	public ResponseEntity<ApiResponseMessge> deleteUser(@PathVariable String userId) throws IOException{
 		
 		ApiResponseMessge apiResponseMessge = ApiResponseMessge.builder().message("User deleted successfully "+userId).success(true).status(HttpStatus.OK).build();
@@ -77,6 +91,7 @@ public class UserController {
 	
 	// get user by id
 	@GetMapping("/userById/{userId}")
+	@Operation(summary = "Get single user", description = "This is User APIs")
 	public ResponseEntity<UserDto> getUserById(@PathVariable String userId){
 		
 		UserDto userById = userService.getUserById(userId);
@@ -87,6 +102,7 @@ public class UserController {
 	
 	// get all users
 	@GetMapping("/allUser")
+	@Operation(summary = "Get all users", description = "This is User APIs")
 	public ResponseEntity<List<UserDto>> getAllUser(){
 		
 		List<UserDto> allUser = userService.getAllUser();
@@ -97,6 +113,7 @@ public class UserController {
 	
 	// get user by email
 	@GetMapping("/getUserByEmail/{email}")
+	@Operation(summary = "Get user by email", description = "This is User APIs")
 	public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email){
 		
 		UserDto userByEmail = userService.getUserByEmail(email);
@@ -107,6 +124,7 @@ public class UserController {
 	
 	// get all users with pagination
 	@GetMapping("/getUserWithPegination")
+	@Operation(summary = "Get users with pegination", description = "This is User APIs")
 	public ResponseEntity<PegiableResponse<UserDto>> getUserWithPegination(
 			@RequestParam(name = "pageNumber", required = false, defaultValue = "0") int pageNumber,
 			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,

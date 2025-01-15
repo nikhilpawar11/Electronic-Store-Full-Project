@@ -19,8 +19,11 @@ import com.nikhil.electronic.store.exception.BadCredentialRequest;
 import com.nikhil.electronic.store.jwtconfig.JwtHelper;
 import com.nikhil.electronic.store.security.UserDetailService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "AuthController", description = "APIs for Authentication !!")
 public class AuthController {
 	
 	@Autowired

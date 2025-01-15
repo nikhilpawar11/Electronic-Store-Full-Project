@@ -2,6 +2,8 @@ package com.nikhil.electronic.store.dto;
 
 import com.nikhil.electronic.store.entity.Role;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,6 +25,7 @@ public class UserDto {
 	private String id;
 
 	@Size(min = 2, max = 18, message = "Inavalid Name !!")
+	@Schema(name = "username", accessMode = AccessMode.READ_ONLY, description = "user name for new user !!")
 	private String name;
 
 	@Email(message = "Invalid User Email !!")
