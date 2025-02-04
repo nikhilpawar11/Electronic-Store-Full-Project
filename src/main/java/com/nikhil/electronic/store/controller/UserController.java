@@ -170,5 +170,15 @@ public class UserController {
 			StreamUtils.copy(resource, response.getOutputStream());
 			
 		}
+		
+		// make a API to search user by name
+		@GetMapping("/searchUser/{keyword}")
+		public ResponseEntity<List<UserDto>> searchUser(@PathVariable String keyword){
+			
+			List<UserDto> searchUser = userService.searchUser(keyword);
+			
+			return new ResponseEntity<>(searchUser, HttpStatus.OK);
+			
+		}
 
 }

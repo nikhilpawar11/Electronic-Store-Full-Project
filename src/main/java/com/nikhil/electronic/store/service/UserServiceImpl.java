@@ -154,5 +154,15 @@ public class UserServiceImpl implements UserService {
 		return peginationResponse;
 	}
 
+	@Override
+	public List<UserDto> searchUser(String keyword) {
+		
+		List<User> user = userRepo.findByNameContaining(keyword);
+		
+		List<UserDto> userList = user.stream().map(ex -> mapper.map(ex, UserDto.class)).collect(Collectors.toList());
+		
+		return userList;
+	}
+
 }
 

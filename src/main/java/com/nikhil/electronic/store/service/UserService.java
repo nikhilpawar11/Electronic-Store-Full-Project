@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.nikhil.electronic.store.customresponses.PegiableResponse;
 import com.nikhil.electronic.store.dto.UserDto;
+import com.nikhil.electronic.store.entity.User;
 
 public interface UserService {
 	
@@ -28,5 +29,8 @@ public interface UserService {
 	
 	// get all user with pagination
 	public PegiableResponse<UserDto> getUserWithPegination(int pageNumber, int pageSize, String sortBy, String sortDir);
+	
+	// find user by name
+	List<UserDto> searchUser(String keyword);
 	
 }

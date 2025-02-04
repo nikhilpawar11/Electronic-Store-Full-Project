@@ -1,5 +1,6 @@
 package com.nikhil.electronic.store.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 	
 	// find user by email
 	Optional<User> findByEmail(String email);
+	
+	// find user by name
+	List<User> findByNameContaining(String keyword);
 	
 	
 }
